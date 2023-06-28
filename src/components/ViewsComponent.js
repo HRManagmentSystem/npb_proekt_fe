@@ -28,6 +28,7 @@ const ViewsComponent = (props) => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [type, setType] = useState(0);
+    const [err, setErr] = useState(null);
 
     return (
         <>
@@ -154,6 +155,9 @@ const ViewsComponent = (props) => {
                 }
                 {
                     type === 27 && <ApplicationSubmission applicationSubmission={applicationSubmission} />
+                }
+                {
+                    !loading && err && <div style={{color: 'red'}}>{err}</div>
                 }
             </div>
         </>
@@ -489,7 +493,10 @@ const ViewsComponent = (props) => {
         }).then(response$ => {
             setLoading(false);
             setType(0);
-        }).catch(error$ => {
+        }).catch(error => {
+            console.log(error);
+            setErr(error.response.data);
+            setLoading(false);
         })
     }
 
@@ -506,7 +513,9 @@ const ViewsComponent = (props) => {
         }).then(response$ => {
             setLoading(false);
             setType(0);
-        }).catch(error$ => {
+        }).catch(error => {
+            setErr(error.response.data);
+            setLoading(false);
         })
     }
 
@@ -522,7 +531,10 @@ const ViewsComponent = (props) => {
         }).then(response$ => {
             setLoading(false);
             setType(0);
-        }).catch(error$ => {
+        }).catch(error => {
+            console.log(error)
+            setErr(error.response.data);
+            setLoading(false);
         })
     }
     function insertEmployee(
@@ -570,6 +582,8 @@ const ViewsComponent = (props) => {
                 setType(0);
             })
             .catch(error => {
+                setErr(error.response.data);
+                setLoading(false);
             });
     }
 
@@ -602,6 +616,8 @@ const ViewsComponent = (props) => {
             .catch(error => {
                 // Handle error
                 console.error('Error inserting employee project position:', error);
+                setErr(error.response.data);
+                setLoading(false);
             });
     }
 
@@ -633,6 +649,8 @@ const ViewsComponent = (props) => {
             .catch(error => {
                 // Handle error
                 console.error('Error inserting job ad:', error);
+                setErr(error.response.data);
+                setLoading(false);
             });
     }
 
@@ -687,6 +705,8 @@ const ViewsComponent = (props) => {
             .catch(error => {
                 // Handle error
                 console.error('Error submitting application:', error);
+                setErr(error.response.data);
+                setLoading(false);
             });
     }
 }
